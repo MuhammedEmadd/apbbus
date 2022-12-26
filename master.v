@@ -1,11 +1,11 @@
 module master_bridge (
-    input [32:0] apb_writeAddr, apb_readAddr,
+    input [31:0] apb_writeAddr, apb_readAddr,
     input [31:0] apb_writeData, PRDATA,
     input PRESETn, PCLK, READ_WRITE, transfer, PREADY,
     output PSEL1, PSEL2,
     output reg PENABLE,
-    output reg [32:0] PADDR,
-    output reg PWRITE,
+    output reg [31:0] PADDR,
+    output reg PWRITE, PSLVERR,
     output reg [31:0] PWDATA, apb_readData_out
 );
     reg [1:0] state, nextState;
@@ -78,7 +78,5 @@ module master_bridge (
             end
     end
 
-    assign {PSEL1,PSEL2} = ((state != IDLE) ? (PADDR[32] ? {1'b0,1'b1} : {1'b1,1'b0}) : 2'd0);
-
-
+    assign {PSEL1,PSEL2} = ((state != IDLE) ? (PADDR[31] ? {1'b0,1'b1} : {1'b1,1'b0}) : 2'd0);
 endmodule
